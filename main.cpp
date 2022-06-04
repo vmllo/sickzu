@@ -3,13 +3,17 @@
 int main()
 {
     Character player;
+    Character ob;
     sf::RenderWindow window(sf::VideoMode(1500, 1000), "Sickzu neeeenja!");
     float position = player.getPosx();
     float ground = 700;
     float hops = 5;
     float height = 70;
     int count = 0;
-
+    float speedx = rand() % 300;
+    float speedy = rand() % 100;
+    float sizex = rand() % 100;
+    float sizey = rand() % 100;
     while (window.isOpen())
     {
         sf::Event event;
@@ -19,45 +23,32 @@ int main()
             if (event.text.unicode == '\x64')
             {
                 position += 30;
-               
+                height = -70;
             }
             if (event.text.unicode == '\x61')
             {
                 position -= 30;
-            }
-            if (event.text.unicode == '\x77')
-            {
-                if (count == 0)
-                {
-                    ground -= 200;
-                    count = 1;
-                }
-            }
-            if (count)
-            {
-                if (ground < 700)
-                {
-                    ground += 5;
-                }
-                else if(ground <= 700)
-                {
-                    count = 0;
-                }
-                std::cout << ground << std::endl;
+                height = -70;
             }
             if (event.text.unicode == '\x73')
             {
                 height = -10;
-            }
-            else {
-                height = -70;
             }
             if (event.type == sf::Event::Closed)
             {
                 window.close();
             }
         }
-        window.clear();
+         window.clear();
+        if (speedy >= 0 && speedy <= 1000)
+        {
+            speedy += .1;
+            ob.setCharacter(100, 100, speedx, speedy, sf::Color::Red);       
+            window.draw(ob.getCharacter());
+        } else {
+            speedx = rand() % 1500 + 1;
+            speedy = 0;
+        }
         player.setCharacter(50, height, position, ground, sf::Color::White);
         window.draw(player.getCharacter());
         window.display();
