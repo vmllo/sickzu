@@ -18,6 +18,11 @@ public:
     {
         return posx;
     }
+    void movement()
+    {
+
+    }
+    
 private:
     sf::RectangleShape character;
     float posx;
