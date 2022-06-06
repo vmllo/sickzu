@@ -86,7 +86,18 @@ int main()
                     float hitlimitxx = (ob[0].getPosx() + ob[0].getSizey()) + 10;
                     if ((hitLimity >= ob[0].getPosy() && hitLimity <= hitLimityy) && (hitlimitx <= hitlimitxx) && (hitlimitx >= ob[0].getPosx()))
                     {
-                        count++;
+                        count = 0;
+                    }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+                {
+                    float hitLimitgy = (player[1].getPosy() + player[1].getSizey()) + 10;
+                    float hitLimitgyy = (ob[1].getPosy() + ob[1].getSizey())+10;
+                    float hitlimitgx = (player[1].getPosx() + player[1].getSizex()) + 10;
+                    float hitlimitgxx = (ob[1].getPosx() + ob[1].getSizey()) + 10;
+                    if ((hitLimitgy >= ob[1].getPosy() && hitLimitgy <= hitLimitgyy) && (hitlimitgx <= hitlimitgxx) && (hitlimitgx >= ob[1].getPosx()))
+                    {
+                        count = 0;
                     }
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -97,7 +108,18 @@ int main()
                     float hitlimitxx = (ob[0].getPosx() + ob[0].getSizey()) + 10;
                     if ((hitLimity <= hitLimityy && hitLimity >= ob[0].getPosy()) && (hitlimitx <= hitlimitxx) && (hitlimitx >= ob[0].getPosx()))
                     {
-                        count++;
+                        count = 0;
+                    }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                {
+                    float hitLimitvy = (player[4].getPosy() + player[4].getSizey());
+                    float hitLimitvyy = (ob[1].getPosy() + ob[1].getSizey()) + 10;
+                    float hitlimitvx = player[4].getPosx() + player[4].getSizex();
+                    float hitlimitvxx = (ob[1].getPosx() + ob[1].getSizey()) + 10;
+                    if ((hitLimitvy <= hitLimitvyy && hitLimitvy >= ob[1].getPosy()) && (hitlimitvx <= hitlimitvxx) && (hitlimitvx >= ob[1].getPosx()))
+                    {
+                        count = 0;
                     }
                 }
             }
@@ -116,6 +138,8 @@ int main()
         }
         else
         {
+            if (speedy >= 1000)
+                count += 10;
             speedx = rand() % 1000 + 1;
             speedy = 0;
         }
@@ -127,7 +151,9 @@ int main()
         }
         else
         {
-            speedeny = rand() % 1500 + 500;
+            if (speedenx >= 1500)
+                count += 10;
+            speedeny = rand() % 1000 + 500;
             speedenx= 0;
         }
         ui.textBox("ArialCE.ttf",std::to_string(count),24,sf::Color::White,50,50);
