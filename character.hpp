@@ -32,14 +32,6 @@ public:
     float getSizey(){
         return sizey;
     }
-    void movement()
-    {
-
-    }
-    bool targetHit(sf::Vector2i)
-    {
-
-    }
     
 private:
     sf::RectangleShape character;
