@@ -43,6 +43,7 @@ public:
     
 private:
     sf::RectangleShape character;
+    sf::CircleShape hitbox;
     float posx;
     float posy;
     float sizex;
