@@ -11,8 +11,6 @@ void playerRez()
 {
     window.draw(player[0].getCharacter());
     window.draw(player[1].getCharacter());
-    window.draw(player[2].getCharacter());
-    window.draw(player[3].getCharacter());
     window.draw(player[4].getCharacter());
 }
 int main()
@@ -132,6 +130,7 @@ int main()
                         hitl = 1;
                         hitr = 0;
                         count = 0;
+                        flag = 0;
                         ui[0].textBox("ArialCE.ttf", "power: A and D go down", 24, sf::Color::White, 50, 100);
                     }
                 }
@@ -147,6 +146,7 @@ int main()
                         hitl = 1;
                         hitr = 0;
                         count = 0;
+                        flag = 0;
                         ui[0].textBox("ArialCE.ttf", "power: A and D go down", 24, sf::Color::White, 50, 100);
                     }
                 }
@@ -183,8 +183,6 @@ int main()
         }
         player[0].setCharacter(50, height, position, ground, sf::Color::White);
         player[1].setCharacter(50, height, position + 60, ground, sf::Color::Cyan);
-        player[2].setCharacter(50, height, position, ground + 60, sf::Color::Cyan);
-        player[3].setCharacter(50, height, position, ground - 60, sf::Color::Cyan);
         player[4].setCharacter(50, height, position - 60, ground, sf::Color::Cyan);
         // make this hitbox a circle
         if (count >= 0)
