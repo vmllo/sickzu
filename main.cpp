@@ -17,6 +17,7 @@ int main()
 {
 
     int hitr;
+    sf::Clock clock;
     int hitl;
     float position = player[0].getPosx();
     float ground = 900;
@@ -26,15 +27,19 @@ int main()
     sf::Vector2f hitbox;
     int count = 0;
     int flag = 0;
+    float speed = 300;
     float speedx = rand() % 300;
-    float speedy = rand() % 100;
+    float speedy = 300;
     float sizex = rand() % 100;
     float sizey = rand() % 100;
     float speedenx = rand() % 300;
     float speedeny = rand() % 100;
+    sf::Time elapsedTime;
+    sf::Time elapsedTime2;
     float sizeenx = rand() % 100;
     float sizeeny = rand() % 100;
     ui[1].textBox("ArialCE.ttf", "Controls: AD(Left:Right) is movement\nSpace: Jump", 24, sf::Color::White, 50, 50);
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     while (window.isOpen())
     {
@@ -160,7 +165,8 @@ int main()
 
         if (speedy >= 0 && speedy <= 1000)
         {
-            speedy += .2;
+            elapsedTime = clock.restart();
+            speedy += elapsedTime.asSeconds() * speed;
             ob[0].setCharacter(100, 100, speedx, speedy, sf::Color::Red);
         }
         else
@@ -171,7 +177,8 @@ int main()
         }
         if (speedenx >= 0 && speedenx <= 1500)
         {
-            speedenx += .2;
+            elapsedTime2 = clock.restart();
+            speedenx += elapsedTime2.asSeconds() * speed;
             ob[1].setCharacter(100, 100, speedenx, speedeny, sf::Color::Green);
         }
         else
