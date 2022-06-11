@@ -40,9 +40,9 @@ int main()
     float sizeeny = rand() % 100;
     ui[1].textBox("ArialCE.ttf", "Controls: AD(Left:Right) is movement\nSpace: Jump", 24, sf::Color::White, 50, 50);
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-
     while (window.isOpen())
     {
+        elapsedTime = clock.restart();
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -162,10 +162,19 @@ int main()
             window.close();
         }
         window.clear();
-
+        if (speedenx >= 0 && speedenx <= 1300)
+        {       
+            speedenx += elapsedTime.asSeconds() * speed;
+            ob[1].setCharacter(100, 100, speedenx, speedeny, sf::Color::Green);
+        }
+        else
+        {
+            count += 10;
+            speedeny = rand() % 1000 + 1;
+            speedenx = 0;
+        }
         if (speedy >= 0 && speedy <= 1000)
         {
-            elapsedTime = clock.restart();
             speedy += elapsedTime.asSeconds() * speed;
             ob[0].setCharacter(100, 100, speedx, speedy, sf::Color::Red);
         }
@@ -174,24 +183,10 @@ int main()
             count += 10;
             speedx = rand() % 1000 + 1;
             speedy = 0;
-        }
-        if (speedenx >= 0 && speedenx <= 1500)
-        {
-            elapsedTime2 = clock.restart();
-            speedenx += elapsedTime2.asSeconds() * speed;
-            ob[1].setCharacter(100, 100, speedenx, speedeny, sf::Color::Green);
-        }
-        else
-        {
-
-            count += 10;
-            speedeny = rand() % 1000 + 500;
-            speedenx = 0;
-        }
+        }    
         player[0].setCharacter(50, height, position, ground, sf::Color::White);
         player[1].setCharacter(50, height, position + 60, ground, sf::Color::Cyan);
         player[4].setCharacter(50, height, position - 60, ground, sf::Color::Cyan);
-        // make this hitbox a circle
         if (count >= 0)
         {
             window.setTitle("Sickzu neeeenja! Score: " + std::to_string(count));
