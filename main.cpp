@@ -7,29 +7,52 @@ sf::RenderWindow window(sf::VideoMode(1500, 1000), "Sickzu neeeenja!");
 Character player[5];
 Character ob[2];
 UI ui[2];
+float position = player[0].getPosx();
+float ground = 850;
+float velocityX = 0;
+float velocityY = 0;
+float accelerationX = 0;
+float accelerationY = 0;
+
+int gravity = 1;
 void playerRez()
 {
     window.draw(player[0].getCharacter());
     window.draw(player[1].getCharacter());
     window.draw(player[4].getCharacter());
 }
+
+void updateMovement() {
+
+    if (ground <= 850)
+    {
+        velocityY += gravity;
+    }
+    else if (ground > 850)
+    {
+        ground = 850;
+    }
+
+    velocityX += accelerationX;
+    velocityY += accelerationY;
+
+    position += velocityX;
+    ground += velocityY;
+}
 int main()
 {
-
     int hitr;
     sf::Clock clock;
     int hitl;
-    float position = player[0].getPosx();
-    float ground = 900;
     float hops = 5;
     float height = 100;
     sf::Vector2i p;
     sf::Vector2f hitbox;
     int count = 0;
     int flag = 0;
-    float speed = 300;
+    float speed = 320;
     float speedx = rand() % 300;
-    float speedy = 300;
+    float speedy = 320;
     float sizex = rand() % 100;
     float sizey = rand() % 100;
     float speedenx = rand() % 300;
@@ -49,79 +72,41 @@ int main()
 
             if ('\x64' == event.text.unicode)
             {
-                playerRez();
-                if (hitr)
-                    ground -= 5;
-                if (hitl)
-                    if (ground < 900)
-                        ground += 5;
                 position += 30;
             }
             if ('\x61' == event.text.unicode)
-            {
-                playerRez();
-                if (hitr)
-                    ground -= 5;
-                if (hitl)
-                    if (ground < 900)
-                        ground += 5;
+            {                
                 position -= 30;
             }
             if ('\x20' == event.text.unicode)
             {
-                playerRez();
-                if (!flag)
-                {
-                    flag = 1;
-                    ground = 300;
-                }
-            }
-            else
-            {
-                if (flag)
-                {
-                    if (ground < 900)
-                    {
-                        ground += .5;
-                    }
-                    if (ground == 900)
-                    {
-                        flag = 0;
-                    }
-                }
-            }
+                float hitLimity = (player[1].getPosy() + player[1].getSizey()) + 10;
+                float hitLimityy = (ob[0].getPosy() + ob[0].getSizey()) + 10;
+                float hitlimitx = (player[1].getPosx() + player[1].getSizex()) + 10;
+                float hitlimitxx = (ob[0].getPosx() + ob[0].getSizey()) + 10;
 
+                if ((hitLimity >= ob[0].getPosy() && hitLimity <= hitLimityy) && (hitlimitx <= hitlimitxx) && (hitlimitx >= ob[0].getPosx()))
+                {
+                    hitr = 1;
+                    hitl = 0;
+                    count = 0;
+                    velocityY = -30;
+                    velocityX = -10;
+                    ui[0].textBox("ArialCE.ttf", "power: A and D go up", 24, sf::Color::White, 50, 100);
+                }
+                else
+                {
+                    velocityY = -30;
+                }
+            }     
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
                 {
-                    float hitLimity = (player[1].getPosy() + player[1].getSizey()) + 10;
-                    float hitLimityy = (ob[0].getPosy() + ob[0].getSizey()) + 10;
-                    float hitlimitx = (player[1].getPosx() + player[1].getSizex()) + 10;
-                    float hitlimitxx = (ob[0].getPosx() + ob[0].getSizey()) + 10;
-
-                    if ((hitLimity >= ob[0].getPosy() && hitLimity <= hitLimityy) && (hitlimitx <= hitlimitxx) && (hitlimitx >= ob[0].getPosx()))
-                    {
-                        hitr = 1;
-                        hitl = 0;
-                        count = 0;
-                        ui[0].textBox("ArialCE.ttf", "power: A and D go up", 24, sf::Color::White, 50, 100);
-                    }
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
                 {
-                    float hitLimitgy = (player[1].getPosy() + player[1].getSizey()) + 10;
-                    float hitLimitgyy = (ob[1].getPosy() + ob[1].getSizey()) + 10;
-                    float hitlimitgx = (player[1].getPosx() + player[1].getSizex()) + 10;
-                    float hitlimitgxx = (ob[1].getPosx() + ob[1].getSizey()) + 10;
-
-                    if ((hitLimitgy >= ob[1].getPosy() && hitLimitgy <= hitLimitgyy) && (hitlimitgx <= hitlimitgxx) && (hitlimitgx >= ob[1].getPosx()))
-                    {
-                        hitr = 1;
-                        hitl = 0;
-                        count = 0;
-                        ui[0].textBox("ArialCE.ttf", "power: A and D go up", 24, sf::Color::White, 50, 100);
-                    }
+                   
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
@@ -163,7 +148,7 @@ int main()
         }
         window.clear();
         if (speedenx >= 0 && speedenx <= 1300)
-        {       
+        {
             speedenx += elapsedTime.asSeconds() * speed;
             ob[1].setCharacter(100, 100, speedenx, speedeny, sf::Color::Green);
         }
@@ -183,7 +168,7 @@ int main()
             count += 10;
             speedx = rand() % 1000 + 1;
             speedy = 0;
-        }    
+        }
         player[0].setCharacter(50, height, position, ground, sf::Color::White);
         player[1].setCharacter(50, height, position + 60, ground, sf::Color::Cyan);
         player[4].setCharacter(50, height, position - 60, ground, sf::Color::Cyan);
@@ -195,6 +180,7 @@ int main()
         window.draw(ui[1].gettextBox());
         window.draw(ob[1].getCharacter());
         window.draw(ob[0].getCharacter());
+        updateMovement();
         playerRez();
 
         window.display();
