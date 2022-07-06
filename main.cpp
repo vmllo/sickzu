@@ -9,12 +9,13 @@ Character ob[2];
 UI ui[2];
 float position = player[0].getPosx();
 float ground = 850;
+float speed;
 float velocityX = 0;
 float velocityY = 0;
 float accelerationX = 0;
 float accelerationY = 0;
 
-int gravity = 1;
+int gravity = 2;
 void playerRez()
 {
     window.draw(player[0].getCharacter());
@@ -24,19 +25,18 @@ void playerRez()
 
 void updateMovement() {
 
-    if (ground <= 850)
+    if (ground <= 500)
     {
         velocityY += gravity;
+        std::cout << ground << std::endl;
     }
-    else if (ground > 850)
+    if (ground > 850)
     {
         ground = 850;
     }
 
-    velocityX += accelerationX;
     velocityY += accelerationY;
 
-    position += velocityX;
     ground += velocityY;
 }
 int main()
@@ -91,14 +91,14 @@ int main()
                     hitl = 0;
                     count = 0;
                     velocityY = -30;
-                    velocityX = -10;
+                    position -= 100;
                     ui[0].textBox("ArialCE.ttf", "power: A and D go up", 24, sf::Color::White, 50, 100);
                 }
                 else
                 {
-                    velocityY = -30;
+                    velocityY = -20;
                 }
-            }     
+            }    
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
